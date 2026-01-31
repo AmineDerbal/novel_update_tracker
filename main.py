@@ -1,15 +1,23 @@
 import asyncio
 import sys
-from scraper.novelupdates import scrape_novelupdates
+from gui.add_novel_window import launch_gui
 
 
-async def main():
+async def scrape_with_gui():
+    """Run scraper with GUI for managing novels"""
+    from scraper.novelupdates import scrape_novelupdates
     try:
         await scrape_novelupdates()
     except Exception as e:
         print(f"Fatal error: {e}", file=sys.stderr)
-        sys.exit(1)
+
+
+def main():
+    """Main entry point - launches the GUI"""
+    app = launch_gui()
+    app.window.mainloop()
+    ##asyncio.run(scrape_with_gui())
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
