@@ -1,6 +1,6 @@
 import asyncio
 import sys
-from gui.add_novel_window import launch_gui
+from gui.main_window import MainWindow
 
 
 async def scrape_with_gui():
@@ -14,8 +14,8 @@ async def scrape_with_gui():
 
 def main():
     """Main entry point - launches the GUI"""
-    app = launch_gui()
-    app.window.mainloop()
+    app = MainWindow()
+    app.run()
     ##asyncio.run(scrape_with_gui())
 
 
