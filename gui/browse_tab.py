@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import json
+import asyncio
+from scraper.browse_novels import browse_novels
 
 class BrowseTab:
     """Tab for browsing and adding new novels"""
@@ -41,6 +43,12 @@ class BrowseTab:
             text="Search",
             command=self._search_novels
         ).pack(side=tk.LEFT)
+        
+        ttk.Button(
+            input_frame,
+            text="Check Browse Novels",
+            command=self._check_browse_novels
+        ).pack(side=tk.LEFT, padx=(5, 0))
         
         # Add by URL section
         url_frame = ttk.LabelFrame(self.frame, text="Add Novel by URL", padding="10")
@@ -93,6 +101,19 @@ class BrowseTab:
         # Info label
         self.info_label = ttk.Label(self.frame, text="")
         self.info_label.pack(fill=tk.X, padx=10, pady=(0, 10))
+    
+    def _check_browse_novels(self):
+        """Run the browse novels scraper"""
+        self.info_label.config(text="🔄 Fetching novels from NovelUpdates...")
+        self.frame.update()
+        
+        try:
+            asyncio.run(browse_novels())
+            self.info_label.config(text="✅ Browse novels check completed!")
+            messagebox.showinfo("Success", "Browse novels scraper completed successfully!")
+        except Exception as e:
+            self.info_label.config(text="❌ Error fetching novels")
+            messagebox.showerror("Error", f"Failed to fetch novels: {str(e)}")
     
     def _load_novels(self):
         """Load existing novels from JSON file"""
