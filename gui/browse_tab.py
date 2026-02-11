@@ -108,7 +108,7 @@ class BrowseTab:
         self.frame.update()
         
         try:
-            asyncio.run(browse_novels())
+            novels =asyncio.run(browse_novels())
             self.info_label.config(text="✅ Browse novels check completed!")
             messagebox.showinfo("Success", "Browse novels scraper completed successfully!")
         except Exception as e:

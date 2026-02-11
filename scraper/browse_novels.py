@@ -13,11 +13,20 @@ async def browse_novels(pg=1):
     print("✅ Successfully loaded page")
 
     page_novels = await page.query_selector_all(".search_main_box_nu")
+    novels = []
 
     for novel in page_novels:
       title = await novel.query_selector(".search_title a")
       title_text = (await title.text_content() or "").strip() if title else "No Title"
-      print(f"📖 Novel: {title_text}")
+      title_url = await title.get_attribute("href") if title else "No URL"
+      title_image = await novel.query_selector(".search_img_nu img")
+      title_image_url = await title_image.get_attribute("src") if title_image else "No Image"
+      novels.append({
+        "title": title_text,
+        "url": title_url,
+        "image_url": title_image_url
+      })
+      
 
   except Exception as e:
     print(f"❌ Error: {type(e).__name__}: {e}", file=sys.stderr)
@@ -27,5 +36,9 @@ async def browse_novels(pg=1):
     await context.close()
     await browser.close()
     await playwright.stop()
+
+  return novels
+
+  
 
     
