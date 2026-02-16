@@ -24,7 +24,8 @@ def setup_database():
       novel_id INTEGER NOT NULL,
       title TEXT NOT NULL,
       url TEXT,
-      chapter_order FLOAT NOT NULL,         
+      chapter_order FLOAT NOT NULL, 
+      upload_date datetime NOT NULL,                   
       FOREIGN KEY (novel_id) REFERENCES novels(id)
     );
   ''')
