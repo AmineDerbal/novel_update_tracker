@@ -30,5 +30,14 @@ def setup_database():
     );
   ''')
 
+  cursor.execute('''
+    CREATE TABLE IF NOT EXISTS updates (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      chapter_id INTEGER NOT NULL,
+      update_date datetime NOT NULL,
+      FOREIGN KEY (chapter_id) REFERENCES chapters(id)
+    );                                                  
+  ''')
+
   conn.commit()
   conn.close()
